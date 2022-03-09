@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  h1 #{paste.title}
+  p #{paste.description}
+  p #{paste.created_at}
+  if paste.created_by == 'Public'
+    p You cannot edit a public paste. Login to edit your paste.
+  else
+    p #{paste.created_by}

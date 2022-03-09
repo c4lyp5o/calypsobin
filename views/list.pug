@@ -1,0 +1,13 @@
+extends layout
+
+block content
+    h1= title
+    ul
+      each item in pastes
+        li 
+          - var url = 'http://localhost:3000/show/' + item.uniqueID
+          a(href=url) #{item.uniqueID}
+        li #{item.created_at}
+        br
+      else
+        li Tiada siapa disini.. cuma aku dan kamu

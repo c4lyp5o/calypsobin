@@ -1,0 +1,17 @@
+extends layout
+
+block content
+  h1= title
+  p Hello traveller, welcome to #{title}
+
+  form(method="POST" action='')
+    div.form-group
+    legend Paste it!
+    p
+      label(for="title") Title:
+        input(type="text", name="title", placeholder='Any title?')
+    p
+      label(for="desc") Content:
+      textarea#textarea1.materialize-textarea(rows="3", name="description", placeholder="Write away...")
+    p.buttons
+      input(type="submit", value="Submit", class="btn btn-primary")
