@@ -1,17 +1,21 @@
 extends layout
 
 block content
-  h1= title
-  p Hello traveller, welcome to #{title}
+  p Hello anon!
 
   form(method="POST" action='')
     div.form-group
-    legend Paste it!
+    legend Paste anything you want here.
     p
       label(for="title") Title:
         input(type="text", name="title", placeholder='Any title?')
+    if errors
+      p(class="center-align pink-text darken-1")= errors[0].msg
     p
       label(for="desc") Content:
       textarea#textarea1.materialize-textarea(rows="3", name="description", placeholder="Write away...")
+    if errors
+      p(class="center-align pink-text darken-1")= errors[1].msg
     p.buttons
       input(type="submit", value="Submit", class="btn btn-primary")
+

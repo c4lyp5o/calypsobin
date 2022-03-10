@@ -1,0 +1,27 @@
+extends layout 
+
+block content
+    form(method="POST" action="")
+      .container
+        h3 Register
+        p Please fill in this form to create an account.
+        hr
+        label(for="email")
+          b Email
+        input#email(type="text", placeholder="Enter Email", name="email", required)
+        label(for="psw")
+          b Password
+        input#psw(type="password", placeholder="Enter Password", name="psw", required)
+        label(for="psw-repeat")
+          b Repeat Password
+        input#psw-repeat(type="password", placeholder="Repeat Password", name="psw-repeat", required)
+        br
+        p By creating an account you agree to our 
+          a(href="#") Terms &amp; Privacy
+          | .
+        button.registerbtn(type="submit", class="btn btn-primary") Register
+      .container.signin
+        p Already have an account? 
+          a(href="/users/login") Sign in
+          | .
+

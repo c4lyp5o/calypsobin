@@ -1,9 +1,13 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+const usercon = require('../controllers/users');
+const auth = require('../middleware/auth');
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+router.get('/register', usercon.registerUserForm);
+router.post('/register', usercon.registerUser);
+router.get('/login', usercon.loginUserForm);
+router.post('/login', usercon.loginUser);
+router.get('/welcome', auth, usercon.welcome);
+router.post('/welcome', auth, usercon.getUser);
 
 module.exports = router;

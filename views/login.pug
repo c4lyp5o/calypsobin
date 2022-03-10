@@ -1,0 +1,22 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css')
+    script(type='text/javascript', src='https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body
+    form(method="POST" action="")
+      .container
+        h3 Login
+        p Please fill in this form to login.
+        hr
+        label(for="email")
+          b Email
+        input#email(type="text", placeholder="Enter Email", name="email", required)
+        label(for="psw")
+          b Password
+        input#psw(type="password", placeholder="Enter Password", name="password", required)
+        br
+        button.registerbtn(type="submit", class="btn btn-primary") Login
+      

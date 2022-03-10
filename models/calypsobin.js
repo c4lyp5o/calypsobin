@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
+const { MONGODB_PASTE_URI } = process.env;
 const Schema = mongoose.Schema;
+const pastingDB = mongoose.createConnection(MONGODB_PASTE_URI);
 
-// create the schema
-var postSchema = new Schema({
+const postSchema = new Schema({
     title: String,
     description: String,
     created_at: Date,
@@ -10,6 +11,6 @@ var postSchema = new Schema({
     uniqueID: String
 });
 
-var Post = mongoose.model('Post', postSchema);
+const Post = pastingDB.model('Post', postSchema);
 
 module.exports = Post;

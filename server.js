@@ -1,7 +1,5 @@
 const http = require('http');
 const app = require('./app');
-const mongoose = require('mongoose');
-require('dotenv').config();
 
 function normalizePort(val) {
     const port = parseInt(val, 10);
@@ -41,19 +39,6 @@ function errorHandler(error) {
 }
 
 const server = http.createServer(app);
-
-// init DB
-mongoose
-  .connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  })
-  .then(() => {
-    console.log('Connected to Pasting Database!');
-  })
-  .catch(err => {
-    console.error('Could not Connect to Database!', err);
-});
 
 server.on('error', errorHandler);
 server.on('listening', () => {

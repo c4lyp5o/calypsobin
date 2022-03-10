@@ -1,10 +1,18 @@
 extends layout
 
 block content
-  h1 #{paste.title}
-  p #{paste.description}
-  p #{paste.created_at}
+  p.center.align Your paste URL is:
+  p.center-align
+    - var url = 'http://localhost:3000/bins/' + paste.uniqueID
+    a(href=url) #{url}
   if paste.created_by == 'Public'
-    p You cannot edit a public paste. Login to edit your paste.
+    p.center-align
+      | You cannot edit this paste. Please 
+      a(href='/users/login') login
+      |  to edit your paste
   else
     p #{paste.created_by}
+  .divider
+  h1 #{paste.title}
+  p #{paste.description}
+  .divider
