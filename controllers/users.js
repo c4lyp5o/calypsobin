@@ -9,12 +9,13 @@ exports.registerUserForm = async (req, res, next) => {
 exports.registerUser = async (req, res, next) => {    
     try {
     // get details from body
-    const { first_name, last_name, email, password } = req.body;
-    if (!(email && password && first_name && last_name)) {
+    const { userName, password } = req.body;
+    if (!(userName && password)) {
       res.status(400).send("All input is required");
     }
+    console.log(userName, password);
     // check if user exist
-    const oldUser = await User.findOne({ email });
+    const oldUser = await User.findOne({ user_name: userName });
     if (oldUser) {
       return res.status(409).send("User Already Exist. Please Login");
     }
@@ -22,14 +23,12 @@ exports.registerUser = async (req, res, next) => {
     encryptedPassword = await bcrypt.hash(password, 10);
     // Create user in our database
     const user = await User.create({
-      first_name,
-      last_name,
-      email: email.toLowerCase(), // sanitize: convert email to lowercase
+      user_name: userName,
       password: encryptedPassword,
     });
     // Create token
     const token = jwt.sign(
-      { user_id: user._id, email },
+      { user_id: user._id, user_name: user.user_name },
       process.env.TOKEN_KEY,
       {
         expiresIn: "2h",
@@ -42,7 +41,6 @@ exports.registerUser = async (req, res, next) => {
   } catch (err) {
     console.log(err);
   }
-  // Our register logic ends here
 }
 
 exports.loginUserForm = async (req, res, next) => {
@@ -52,31 +50,33 @@ exports.loginUserForm = async (req, res, next) => {
 exports.loginUser = async (req, res, next) => {
   try {
     // Get user input
-    const { email, password } = req.body;
-
+    const { userName, password } = req.body;
     // Validate user input
-    if (!(email && password)) {
+    if (!(userName && password)) {
       res.status(400).send("All input is required");
     }
     // Validate if user exist in our database
-    const user = await User.findOne({ email });
+    const valUser = await User.findOne({ user_name: userName });
+    
+    if (valUser == null) {
+      return res.status(409).send("User does not exist");
+    }
 
-    if (user && (await bcrypt.compare(password, user.password))) {
+    if (valUser && (await bcrypt.compare(password, valUser.password))) {
       // Create token
       const token = jwt.sign(
-        { user_id: user._id, email, user_name: user.first_name },
+        { user_id: valUser._id, user_name: valUser.user_name },
         process.env.TOKEN_KEY,
         {
           algorithm: "HS256",
           expiresIn: "5m",
         }
       );
-
       // save user token
-      user.token = token;
-
-      // user
-      res.cookie("token", token, { maxAge: 60000 });
+      valUser.token = token;
+      
+      // give cookie to user with auth token, please adjust the expiry time
+      res.cookie("token", token, { maxAge: 300000 });
       return res.redirect('/users/welcome');
     }
     res.status(400).send("Invalid Credentials");
@@ -85,10 +85,12 @@ exports.loginUser = async (req, res, next) => {
   }
 }
 
-exports.getUser = async (req, res, next) => {
-    res.status(200).send("Welcome 🙌 ");
-}
-
 exports.welcome = async (req, res, next) => {
     res.render('welcome', { title: `Hey  ${req.user.user_name}`, userIn: req.user.user_name });
 }
+
+exports.logMeOut = async (req, res, next) => {
+  console.log('Logging you out');
+  res.clearCookie("token");
+  res.redirect("/");
+};

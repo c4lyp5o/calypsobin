@@ -4,9 +4,7 @@ const Schema = mongoose.Schema;
 const pastingDB = mongoose.createConnection(MONGODB_USERS_URI);
 
 const userSchema = new Schema({
-  first_name: { type: String, default: null },
-  last_name: { type: String, default: null },
-  email: { type: String, unique: true },
+  user_name: { type: String, default: null },
   password: { type: String },
   token: { type: String },
 });

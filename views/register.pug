@@ -1,20 +1,22 @@
-extends layout 
-
-block content
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css')
+    script(type='text/javascript', src='https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body
     form(method="POST" action="")
       .container
         h3 Register
         p Please fill in this form to create an account.
         hr
-        label(for="email")
-          b Email
-        input#email(type="text", placeholder="Enter Email", name="email", required)
-        label(for="psw")
+        label(for="userName")
+          b Username
+        input#userName(type="text", placeholder="Enter username", name="userName", required)
+        label(for="password")
           b Password
-        input#psw(type="password", placeholder="Enter Password", name="psw", required)
-        label(for="psw-repeat")
-          b Repeat Password
-        input#psw-repeat(type="password", placeholder="Repeat Password", name="psw-repeat", required)
+        input#password(type="password", placeholder="Enter Password", name="password", required)
         br
         p By creating an account you agree to our 
           a(href="#") Terms &amp; Privacy
