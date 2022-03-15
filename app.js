@@ -1,9 +1,9 @@
 // init express stuff
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const morgan = require('morgan');
 require('dotenv').config();
 require("./configs/database").connectUser();
 require("./configs/database").connectPaste();
@@ -13,18 +13,20 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 
 // init express
-var app = express();
+const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-app.use(logger('dev'));
+// add other middleware
+app.use(morgan('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
+// add routes
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
