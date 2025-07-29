@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { MONGODB_USERS_URI } = process.env;
 const Schema = mongoose.Schema;
-const pastingDB = mongoose.createConnection(MONGODB_USERS_URI);
+const usersDB = mongoose.createConnection(MONGODB_USERS_URI);
 
 const userSchema = new Schema({
   user_name: { type: String, default: null },
@@ -9,6 +9,6 @@ const userSchema = new Schema({
   token: { type: String },
 });
 
-const UserReg = pastingDB.model('User', userSchema);
+const UserReg = usersDB.model('User', userSchema);
 
 module.exports = UserReg;
